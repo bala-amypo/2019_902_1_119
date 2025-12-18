@@ -1,9 +1,10 @@
 package com.example.demo.model;
+
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 @Entity
+@Table(name = "portfolio_holdings")
 public class PortfolioHolding {
 
     @Id
@@ -18,11 +19,15 @@ public class PortfolioHolding {
 
     private Double quantity;
     private BigDecimal marketValue;
-    private Timestamp lastUpdated;
 
-    @PrePersist @PreUpdate
-    public void updateTime() {
-        lastUpdated = new Timestamp(System.currentTimeMillis());
+    public PortfolioHolding() {}
+
+    public PortfolioHolding(UserPortfolio portfolio, Stock stock,
+                            Double quantity, BigDecimal marketValue) {
+        this.portfolio = portfolio;
+        this.stock = stock;
+        this.quantity = quantity;
+        this.marketValue = marketValue;
     }
 
     // getters & setters
