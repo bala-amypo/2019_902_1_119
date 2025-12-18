@@ -1,6 +1,4 @@
-public class Stock{
-    
-}
+
 package com.example.demo.model;
 
 import jakarta.persistence.*;
@@ -18,7 +16,6 @@ public class Stock {
     private String sector;
     private Boolean active = true;
 
-    // getters & setters
     public Long getId() { return id; }
     public String getTicker() { return ticker; }
     public void setTicker(String ticker) { this.ticker = ticker; }
