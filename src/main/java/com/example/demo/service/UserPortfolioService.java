@@ -1,3 +1,3 @@
-Public class UserPortfolioService{
+interface UserPortfolioService{
     
 }
