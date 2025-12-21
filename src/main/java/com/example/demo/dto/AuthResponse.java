@@ -12,42 +12,12 @@ stock:
 
 
 portfolioholding:
-package com.example.demo.repository;
 
-import com.example.demo.model.PortfolioHolding;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import java.util.List;
-
-@Repository
-public interface PortfolioHoldingRepository extends JpaRepository<PortfolioHolding, Long> {
-    List<PortfolioHolding> findByPortfolioId(Long portfolioId);
-}
 riskAnalysisResult:
-package com.example.demo.repository;
 
-import com.example.demo.model.RiskAnalysisResult;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import java.util.List;
-
-@Repository
-public interface RiskAnalysisResultRepository extends JpaRepository<RiskAnalysisResult, Long> {
-    List<RiskAnalysisResult> findByPortfolioId(Long portfolioId);
-}
 
 RiskThreshold:
-package com.example.demo.repository;
 
-import com.example.demo.model.RiskThreshold;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import java.util.Optional;
-
-@Repository
-public interface RiskThresholdRepository extends JpaRepository<RiskThreshold, Long> {
-    Optional<RiskThreshold> findByActiveTrue();
-}
 
 Service:
 PortfolioHolding:
