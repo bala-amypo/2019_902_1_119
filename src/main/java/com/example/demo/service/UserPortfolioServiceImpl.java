@@ -6,40 +6,51 @@ import com.example.demo.model.UserPortfolio;
 import com.example.demo.repository.UserPortfolioRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class UserPortfolioServiceImpl implements UserPortfolioService {
-
-    private final UserPortfolioRepository portfolioRepository;
+    
+    private final UserPortfolioRepository userPortfolioRepository;
     private final UserRepository userRepository;
-
-    public UserPortfolioServiceImpl(UserPortfolioRepository portfolioRepository,
-                                    UserRepository userRepository) {
-        this.portfolioRepository = portfolioRepository;
+    
+    public UserPortfolioServiceImpl(UserPortfolioRepository userPortfolioRepository, UserRepository userRepository) {
+        this.userPortfolioRepository = userPortfolioRepository;
         this.userRepository = userRepository;
     }
-
+    
     @Override
     public UserPortfolio createPortfolio(UserPortfolio portfolio) {
-        User user = userRepository.findById(
-                portfolio.getUser().getId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("User not found"));
-        portfolio.setUser(user);
-        return portfolioRepository.save(portfolio);
+        if (portfolio.getUserId() != null && portfolio.getUser() == null) {
+            User user = userRepository.findById(portfolio.getUserId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            portfolio.setUser(user);
+        }
+        return userPortfolioRepository.save(portfolio);
     }
-
+    
+    @Override
+    public UserPortfolio updatePortfolio(Long id, UserPortfolio portfolio) {
+        UserPortfolio existing = getPortfolioById(id);
+        existing.setPortfolioName(portfolio.getPortfolioName());
+        return userPortfolioRepository.save(existing);
+    }
+    
     @Override
     public UserPortfolio getPortfolioById(Long id) {
-        return portfolioRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Portfolio not found"));
+        return userPortfolioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Portfolio not found"));
     }
-
+    
     @Override
     public List<UserPortfolio> getPortfoliosByUser(Long userId) {
-        return portfolioRepository.findByUserId(userId);
+        return userPortfolioRepository.findByUserId(userId);
+    }
+    
+    @Override
+    public void deactivatePortfolio(Long id) {
+        UserPortfolio portfolio = getPortfolioById(id);
+        portfolio.setActive(false);
+        userPortfolioRepository.save(portfolio);
     }
 }
