@@ -8,98 +8,10 @@ RiskThres:
 stock:
 
 User:
-package com.example.demo.controller;
 
-import com.example.demo.model.UserPortfolio;
-import com.example.demo.service.UserPortfolioService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/portfolios")
-@Tag(name = "Portfolios", description = "Portfolio management endpoints")
-public class UserPortfolioController {
-    
-    private final UserPortfolioService userPortfolioService;
-    
-    public UserPortfolioController(UserPortfolioService userPortfolioService) {
-        this.userPortfolioService = userPortfolioService;
-    }
-    
-    @PostMapping
-    @Operation(summary = "Create a new portfolio")
-    public ResponseEntity<UserPortfolio> createPortfolio(@RequestBody UserPortfolio portfolio) {
-        UserPortfolio createdPortfolio = userPortfolioService.createPortfolio(portfolio);
-        return ResponseEntity.ok(createdPortfolio);
-    }
-    
-    @PutMapping("/{id}")
-    @Operation(summary = "Update an existing portfolio")
-    public ResponseEntity<UserPortfolio> updatePortfolio(@PathVariable Long id, @RequestBody UserPortfolio portfolio) {
-        UserPortfolio updatedPortfolio = userPortfolioService.updatePortfolio(id, portfolio);
-        return ResponseEntity.ok(updatedPortfolio);
-    }
-    
-    @GetMapping("/{id}")
-    @Operation(summary = "Get portfolio by ID")
-    public ResponseEntity<UserPortfolio> getPortfolio(@PathVariable Long id) {
-        UserPortfolio portfolio = userPortfolioService.getPortfolioById(id);
-        return ResponseEntity.ok(portfolio);
-    }
-    
-    @GetMapping("/user/{userId}")
-    @Operation(summary = "Get portfolios for a user")
-    public ResponseEntity<List<UserPortfolio>> getPortfoliosByUser(@PathVariable Long userId) {
-        List<UserPortfolio> portfolios = userPortfolioService.getPortfoliosByUser(userId);
-        return ResponseEntity.ok(portfolios);
-    }
-    
-    @PutMapping("/{id}/deactivate")
-    @Operation(summary = "Deactivate a portfolio")
-    public ResponseEntity<String> deactivatePortfolio(@PathVariable Long id) {
-        userPortfolioService.deactivatePortfolio(id);
-        return ResponseEntity.ok("Portfolio deactivated successfully");
-    }
-}
 
 application pro:
-spring.application.name=demo
-server.port=8081
 
-# H2 Database Configuration (for testing)
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-
-# H2 Console (for debugging)
-spring.h2.console.enabled=true
-spring.h2.console.path=/h2-console
-
-# JPA/Hibernate Configuration
-spring.jpa.hibernate.ddl-auto=create-drop
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-
-# Swagger Configuration
-springdoc.api-docs.path=/api-docs
-springdoc.swagger-ui.path=/swagger-ui/index.html
-
-
-# spring.application.name=demo
-# spring.datasource.url=jdbc:mysql://localhost:3306/transport_pro?createDatabaseIfNotExist=true
-# spring.datasource.username=root
-# spring.datasource.password=root
-# spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-
-# spring.jpa.hibernate.ddl-auto=update
-# spring.jpa.show-sql=true
-# spring.jpa.properties.hibernate.format_sql=true
-# spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 
 pom.xml:
 <?xml version="1.0" encoding="UTF-8"?>
