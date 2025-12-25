@@ -2,54 +2,48 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "portfolio_holdings")
 public class PortfolioHolding {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne
-    @JoinColumn(name = "portfolio_id")
-    private UserPortfolio portfolio;
+    @Column(name = "portfolio_id")
+    private Long portfolioId;
     
-    @ManyToOne
-    @JoinColumn(name = "stock_id")
-    private Stock stock;
+    @Column(name = "stock_id")
+    private Long stockId;
     
+    @Column(nullable = false)
     private Double quantity;
     
+    @Column(name = "market_value", nullable = false, precision = 19, scale = 2)
     private BigDecimal marketValue;
     
-    private Timestamp lastUpdated;
+    @Column(name = "last_updated")
+    private LocalDateTime lastUpdated;
     
     public PortfolioHolding() {}
     
-    public PortfolioHolding(UserPortfolio portfolio, Stock stock, Double quantity, BigDecimal marketValue) {
-        this.portfolio = portfolio;
-        this.stock = stock;
+    public PortfolioHolding(Long portfolioId, Long stockId, Double quantity, BigDecimal marketValue) {
+        this.portfolioId = portfolioId;
+        this.stockId = stockId;
         this.quantity = quantity;
         this.marketValue = marketValue;
     }
-    
-    @PrePersist
-    @PreUpdate
-    protected void onUpdate() {
-        lastUpdated = new Timestamp(System.currentTimeMillis());
-    }
-    
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public UserPortfolio getPortfolio() { return portfolio; }
-    public void setPortfolio(UserPortfolio portfolio) { this.portfolio = portfolio; }
+    public Long getPortfolioId() { return portfolioId; }
+    public void setPortfolioId(Long portfolioId) { this.portfolioId = portfolioId; }
     
-    public Stock getStock() { return stock; }
-    public void setStock(Stock stock) { this.stock = stock; }
+    public Long getStockId() { return stockId; }
+    public void setStockId(Long stockId) { this.stockId = stockId; }
     
     public Double getQuantity() { return quantity; }
     public void setQuantity(Double quantity) { this.quantity = quantity; }
@@ -57,6 +51,6 @@ public class PortfolioHolding {
     public BigDecimal getMarketValue() { return marketValue; }
     public void setMarketValue(BigDecimal marketValue) { this.marketValue = marketValue; }
     
-    public Timestamp getLastUpdated() { return lastUpdated; }
-    public void setLastUpdated(Timestamp lastUpdated) { this.lastUpdated = lastUpdated; }
+    public LocalDateTime getLastUpdated() { return lastUpdated; }
+    public void setLastUpdated(LocalDateTime lastUpdated) { this.lastUpdated = lastUpdated; }
 }

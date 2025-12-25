@@ -1,60 +1,54 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "risk_analysis_results")
 public class RiskAnalysisResult {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne
-    @JoinColumn(name = "portfolio_id")
-    private UserPortfolio portfolio;
+    @Column(name = "portfolio_id")
+    private Long portfolioId;
     
-    private Timestamp analysisDate;
+    @Column(name = "analysis_date")
+    private LocalDateTime analysisDate;
     
-    private LocalDateTime analysisDateTime;
-    
+    @Column(name = "highest_stock_percentage")
     private Double highestStockPercentage;
     
+    @Column(name = "highest_sector_percentage")
     private Double highestSectorPercentage;
     
+    @Column(name = "is_high_risk")
     private Boolean isHighRisk;
     
     private String notes;
     
     public RiskAnalysisResult() {}
     
-    public RiskAnalysisResult(UserPortfolio portfolio, Timestamp analysisDate, Double highestStockPercentage, Boolean isHighRisk) {
-        this.portfolio = portfolio;
+    public RiskAnalysisResult(Long portfolioId, LocalDateTime analysisDate, 
+                            Double highestStockPercentage, Double highestSectorPercentage, 
+                            Boolean isHighRisk, String notes) {
+        this.portfolioId = portfolioId;
         this.analysisDate = analysisDate;
         this.highestStockPercentage = highestStockPercentage;
+        this.highestSectorPercentage = highestSectorPercentage;
         this.isHighRisk = isHighRisk;
+        this.notes = notes;
     }
-    
-    @PrePersist
-    protected void onCreate() {
-        analysisDate = new Timestamp(System.currentTimeMillis());
-        analysisDateTime = LocalDateTime.now();
-    }
-    
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public UserPortfolio getPortfolio() { return portfolio; }
-    public void setPortfolio(UserPortfolio portfolio) { this.portfolio = portfolio; }
+    public Long getPortfolioId() { return portfolioId; }
+    public void setPortfolioId(Long portfolioId) { this.portfolioId = portfolioId; }
     
-    public Timestamp getAnalysisDate() { return analysisDate; }
-    public void setAnalysisDate(Timestamp analysisDate) { this.analysisDate = analysisDate; }
-    
-    public LocalDateTime getAnalysisDateTime() { return analysisDateTime; }
-    public void setAnalysisDateTime(LocalDateTime analysisDateTime) { this.analysisDateTime = analysisDateTime; }
+    public LocalDateTime getAnalysisDate() { return analysisDate; }
+    public void setAnalysisDate(LocalDateTime analysisDate) { this.analysisDate = analysisDate; }
     
     public Double getHighestStockPercentage() { return highestStockPercentage; }
     public void setHighestStockPercentage(Double highestStockPercentage) { this.highestStockPercentage = highestStockPercentage; }
