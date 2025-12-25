@@ -21,47 +21,10 @@ LoginREquest:
 
 AuthResponse:
 
-package com.example.demo.dto;
 
-public class AuthResponse {
-    private String token;
-    private Long userId;
-    private String email;
-    private String role;
-    
-    public AuthResponse() {}
-    
-    public AuthResponse(String token, Long userId, String email, String role) {
-        this.token = token;
-        this.userId = userId;
-        this.email = email;
-        this.role = role;
-    }
-
-    // Getters and Setters
-    public String getToken() { return token; }
-    public void setToken(String token) { this.token = token; }
-    
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
-    
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-    
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
-}
 repositories:
 Stock:
-package com.example.demo.repository;
 
-import com.example.demo.model.Stock;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
-
-public interface StockRepository extends JpaRepository<Stock, Long> {
-    Optional<Stock> findByTicker(String ticker);
-}
 
 UsrPOrt:
 package com.example.demo.repository;

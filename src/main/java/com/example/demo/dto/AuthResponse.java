@@ -1,80 +1,30 @@
-// controller:
-// portfolioHolding:
+package com.example.demo.dto;
 
-// riskAn:
+public class AuthResponse {
+    private String token;
+    private Long userId;
+    private String email;
+    private String role;
+    
+    public AuthResponse() {}
+    
+    public AuthResponse(String token, Long userId, String email, String role) {
+        this.token = token;
+        this.userId = userId;
+        this.email = email;
+        this.role = role;
+    }
 
-// RiskThres:
-
-// stock:
-
-// User:
-
-
-// application pro:
-
-
-// pom.xml:
-// <?xml version="1.0" encoding="UTF-8"?>
-// <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-// 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-// 	<modelVersion>4.0.0</modelVersion>
-// 	<parent>
-// 		<groupId>org.springframework.boot</groupId>
-// 		<artifactId>spring-boot-starter-parent</artifactId>
-// 		<version>3.2.0</version>
-// 		<relativePath/>
-// 	</parent>
-// 	<groupId>com.example</groupId>
-// 	<artifactId>demo</artifactId>
-// 	<version>0.0.1-SNAPSHOT</version>
-// 	<name>demo</name>
-// 	<description>Stock Portfolio Risk Analyzer</description>
-// 	<properties>
-// 		<java.version>17</java.version>
-// 	</properties>
-// 	<dependencies>
-// 		<dependency>
-// 			<groupId>org.springframework.boot</groupId>
-// 			<artifactId>spring-boot-starter-web</artifactId>
-// 		</dependency>
-// 		<dependency>
-// 			<groupId>org.springframework.boot</groupId>
-// 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-// 		</dependency>
-// 		<dependency>
-// 			<groupId>com.h2database</groupId>
-// 			<artifactId>h2</artifactId>
-// 			<scope>runtime</scope>
-// 		</dependency>
-// 		<dependency>
-// 			<groupId>org.springdoc</groupId>
-// 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-// 			<version>2.2.0</version>
-// 		</dependency>
-// 		<dependency>
-// 			<groupId>org.testng</groupId>
-// 			<artifactId>testng</artifactId>
-// 			<version>7.8.0</version>
-// 			<scope>test</scope>
-// 		</dependency>
-// 		<dependency>
-// 			<groupId>org.mockito</groupId>
-// 			<artifactId>mockito-core</artifactId>
-// 			<scope>test</scope>
-// 		</dependency>
-// 		<dependency>
-// 			<groupId>org.springframework.boot</groupId>
-// 			<artifactId>spring-boot-starter-test</artifactId>
-// 			<scope>test</scope>
-// 		</dependency>
-// 	</dependencies>
-
-// 	<build>
-// 		<plugins>
-// 			<plugin>
-// 				<groupId>org.springframework.boot</groupId>
-// 				<artifactId>spring-boot-maven-plugin</artifactId>
-// 			</plugin>
-// 		</plugins>
-// 	</build>
-// </project>
+    // Getters and Setters
+    public String getToken() { return token; }
+    public void setToken(String token) { this.token = token; }
+    
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+}
