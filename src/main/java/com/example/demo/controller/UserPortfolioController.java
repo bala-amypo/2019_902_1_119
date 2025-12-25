@@ -3,54 +3,57 @@ package com.example.demo.controller;
 import com.example.demo.model.UserPortfolio;
 import com.example.demo.service.UserPortfolioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
+@Tag(name = "Portfolios", description = "User portfolio management")
 @RestController
 @RequestMapping("/api/portfolios")
-@Tag(name = "Portfolios", description = "Portfolio management endpoints")
+@SecurityRequirement(name = "bearerAuth")
 public class UserPortfolioController {
     
     private final UserPortfolioService userPortfolioService;
-    
+
     public UserPortfolioController(UserPortfolioService userPortfolioService) {
         this.userPortfolioService = userPortfolioService;
     }
-    
+
+    @Operation(summary = "Create portfolio")
     @PostMapping
-    @Operation(summary = "Create a new portfolio")
     public ResponseEntity<UserPortfolio> createPortfolio(@RequestBody UserPortfolio portfolio) {
-        UserPortfolio createdPortfolio = userPortfolioService.createPortfolio(portfolio);
-        return ResponseEntity.ok(createdPortfolio);
+        UserPortfolio created = userPortfolioService.createPortfolio(portfolio);
+        return ResponseEntity.ok(created);
     }
-    
+
+    @Operation(summary = "Update portfolio")
     @PutMapping("/{id}")
-    @Operation(summary = "Update an existing portfolio")
     public ResponseEntity<UserPortfolio> updatePortfolio(@PathVariable Long id, @RequestBody UserPortfolio portfolio) {
-        UserPortfolio updatedPortfolio = userPortfolioService.updatePortfolio(id, portfolio);
-        return ResponseEntity.ok(updatedPortfolio);
+        UserPortfolio updated = userPortfolioService.updatePortfolio(id, portfolio);
+        return ResponseEntity.ok(updated);
     }
-    
-    @GetMapping("/{id}")
+
     @Operation(summary = "Get portfolio by ID")
-    public ResponseEntity<UserPortfolio> getPortfolio(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<UserPortfolio> getPortfolioById(@PathVariable Long id) {
         UserPortfolio portfolio = userPortfolioService.getPortfolioById(id);
         return ResponseEntity.ok(portfolio);
     }
-    
+
+    @Operation(summary = "Get portfolios by user")
     @GetMapping("/user/{userId}")
-    @Operation(summary = "Get portfolios for a user")
     public ResponseEntity<List<UserPortfolio>> getPortfoliosByUser(@PathVariable Long userId) {
         List<UserPortfolio> portfolios = userPortfolioService.getPortfoliosByUser(userId);
         return ResponseEntity.ok(portfolios);
     }
-    
+
+    @Operation(summary = "Deactivate portfolio")
     @PutMapping("/{id}/deactivate")
-    @Operation(summary = "Deactivate a portfolio")
-    public ResponseEntity<String> deactivatePortfolio(@PathVariable Long id) {
+    public ResponseEntity<Void> deactivatePortfolio(@PathVariable Long id) {
         userPortfolioService.deactivatePortfolio(id);
-        return ResponseEntity.ok("Portfolio deactivated successfully");
+        return ResponseEntity.ok().build();
     }
 }
