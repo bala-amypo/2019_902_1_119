@@ -416,28 +416,6 @@ public class SecurityConfig {
 }
 app.prop:
 
-# Server
-server.port=8080
-
-# Database
-spring.datasource.url=jdbc:mysql://localhost:3306/stock_portfolio?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-spring.datasource.username=root
-spring.datasource.password=password
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-
-# JPA/Hibernate
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
-spring.jpa.properties.hibernate.format_sql=true
-
-# JWT
-jwt.secret=mySecretKeyForJWTGenerationAndValidation1234567890
-jwt.expiration=86400000
-
-# Swagger
-springdoc.swagger-ui.path=/swagger-ui.html
-springdoc.api-docs.path=/v3/api-docs
 
 JwtAuthenticationFilter.java:
 CustomerUserDetailsService.java:
