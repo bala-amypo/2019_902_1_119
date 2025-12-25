@@ -2,12 +2,10 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,14 +16,11 @@ public class User {
     @Column(nullable = false)
     private String password;
     
-    private String fullName;
+    @Column(nullable = false)
+    private String role;
     
-    private String role = "MONITOR";
-    
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
-    
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserPortfolio> portfolios;
     
     public User() {}
     
@@ -35,12 +30,7 @@ public class User {
         this.role = role;
         this.createdAt = createdAt;
     }
-    
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
-    
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -51,15 +41,9 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
     
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
-    
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
     
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    
-    public List<UserPortfolio> getPortfolios() { return portfolios; }
-    public void setPortfolios(List<UserPortfolio> portfolios) { this.portfolios = portfolios; }
 }
