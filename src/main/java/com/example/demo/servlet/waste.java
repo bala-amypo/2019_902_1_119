@@ -1,32 +1,4 @@
 
-
-Entity:
-User:
-
-stock:
-
-userport:
-
-
-potHolding:
-
-
-riskThreshold:
-
-riskAnalysis:
-
-DTO:
-LoginREquest:
-
-
-AuthResponse:
-
-
-repositories:
-Stock:
-
-
-UsrPOrt:
 package com.example.demo.repository;
 
 import com.example.demo.model.UserPortfolio;
@@ -80,17 +52,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 }
-Service:
 
-StockService:
-
-IMPL:
-
-UserPort:
-
-IMPL:
-
-POrtHolding:
 
 package com.example.demo.service;
 
@@ -314,54 +276,11 @@ public class UserServiceImpl implements UserService {
             .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }
-Security
-JwtUtil.java:
-Controller:
-authController:
-Stock:
-UserPort:
+
 
 config:
 openapi:
-package com.example.demo.config;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@OpenAPIDefinition(info = @Info(title = "Stock Portfolio Risk Analyzer API", 
-                               version = "1.0", 
-                               description = "API for managing stock portfolios and risk analysis"))
-@SecurityScheme(name = "bearerAuth", 
-                type = SecuritySchemeType.HTTP, 
-                scheme = "bearer", 
-                bearerFormat = "JWT")
-@Configuration
-public class OpenApiConfig {
-
-    @Bean
-    public OpenAPI customOpenAPI() {
-        final String securitySchemeName = "bearerAuth";
-        SecurityRequirement securityRequirement = new SecurityRequirement()
-            .addList(securitySchemeName);
-        
-        return new OpenAPI()
-            .components(new Components()
-                .addSecuritySchemes(securitySchemeName,
-                    new SecurityScheme()
-                        .type(SecurityScheme.Type.HTTP)
-                        .bearerFormat("JWT")
-                        .scheme("bearer")))
-            .addSecurityItem(securityRequirement);
-    }
-}
 securiyyt:
 package com.example.demo.config;
 
@@ -414,8 +333,3 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 }
-app.prop:
-
-
-JwtAuthenticationFilter.java:
-CustomerUserDetailsService.java:
