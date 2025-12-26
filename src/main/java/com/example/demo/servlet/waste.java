@@ -35,60 +35,18 @@ StockRepository.java
 java
 UserPortfolioRepository.java
 java
-package com.example.demo.repository;
-
-import com.example.demo.model.UserPortfolio;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-
-public interface UserPortfolioRepository extends JpaRepository<UserPortfolio, Long> {
-    List<UserPortfolio> findByUserId(Long userId);
-}
 PortfolioHoldingRepository.java
 java
-package com.example.demo.repository;
 
-import com.example.demo.model.PortfolioHolding;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-
-public interface PortfolioHoldingRepository extends JpaRepository<PortfolioHolding, Long> {
-    List<PortfolioHolding> findByPortfolioId(Long portfolioId);
-}
 RiskThresholdRepository.java
 java
-package com.example.demo.repository;
-
-import com.example.demo.model.RiskThreshold;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-
-public interface RiskThresholdRepository extends JpaRepository<RiskThreshold, Long> {
-    List<RiskThreshold> findByActiveTrue();
-}
 RiskAnalysisResultRepository.java
 java
-package com.example.demo.repository;
 
-import com.example.demo.model.RiskAnalysisResult;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-
-public interface RiskAnalysisResultRepository extends JpaRepository<RiskAnalysisResult, Long> {
-    List<RiskAnalysisResult> findByPortfolioId(Long portfolioId);
-}
 Service Interfaces
 UserService.java
 java
-package com.example.demo.service;
 
-import com.example.demo.model.User;
-
-public interface UserService {
-    User registerUser(User user);
-    User findByEmail(String email);
-    User findById(Long id);
-}
 StockService.java
 java
 package com.example.demo.service;
