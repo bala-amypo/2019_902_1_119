@@ -22,144 +22,17 @@ UserPOrt:
 
 POrtHolding:
 RiskThreshold:
-package com.example.demo.model;
-
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "riskthresholds")
-public class RiskThreshold {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "portfolio_id")
-    private UserPortfolio portfolio;
-
-    private Double maxSingleStockPercentage;
-    private Double maxOverallVolatility;
-
-    public RiskThreshold() {}
-
-    public RiskThreshold(UserPortfolio portfolio, Double maxSingleStockPercentage, Double maxOverallVolatility) {
-        this.portfolio = portfolio;
-        this.maxSingleStockPercentage = maxSingleStockPercentage;
-        this.maxOverallVolatility = maxOverallVolatility;
-    }
-
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public UserPortfolio getPortfolio() { return portfolio; }
-    public void setPortfolio(UserPortfolio portfolio) { this.portfolio = portfolio; }
-    public Double getMaxSingleStockPercentage() { return maxSingleStockPercentage; }
-    public void setMaxSingleStockPercentage(Double maxSingleStockPercentage) { this.maxSingleStockPercentage = maxSingleStockPercentage; }
-    public Double getMaxOverallVolatility() { return maxOverallVolatility; }
-    public void setMaxOverallVolatility(Double maxOverallVolatility) { this.maxOverallVolatility = maxOverallVolatility; }
-}
 RiskAnalysis:
-package com.example.demo.model;
 
-import jakarta.persistence.*;
-import java.sql.Timestamp;
-
-@Entity
-@Table(name = "riskanalysisresults")
-public class RiskAnalysisResult {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "portfolio_id")
-    private UserPortfolio portfolio;
-
-    private Timestamp analysisDate;
-    private Double highestStockPercentage;
-    private Boolean isHighRisk;
-
-    public RiskAnalysisResult() {}
-
-    public RiskAnalysisResult(UserPortfolio portfolio, Timestamp analysisDate, Double highestStockPercentage, Boolean isHighRisk) {
-        this.portfolio = portfolio;
-        this.analysisDate = analysisDate;
-        this.highestStockPercentage = highestStockPercentage;
-        this.isHighRisk = isHighRisk;
-    }
-
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public UserPortfolio getPortfolio() { return portfolio; }
-    public void setPortfolio(UserPortfolio portfolio) { this.portfolio = portfolio; }
-    public Timestamp getAnalysisDate() { return analysisDate; }
-    public void setAnalysisDate(Timestamp analysisDate) { this.analysisDate = analysisDate; }
-    public Double getHighestStockPercentage() { return highestStockPercentage; }
-    public void setHighestStockPercentage(Double highestStockPercentage) { this.highestStockPercentage = highestStockPercentage; }
-    public Boolean getIsHighRisk() { return isHighRisk; }
-    public void setIsHighRisk(Boolean isHighRisk) { this.isHighRisk = isHighRisk; }
-}
 
 config:
 SEcurityConfig:
-package com.example.demo.config;
-
-import com.example.demo.security.JwtAuthenticationFilter;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
-
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
-
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated()
-            );
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
-}
 
 
 UserRepository.java
 java
-package com.example.demo.repository;
-
-import com.example.demo.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
-
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
-}
 StockRepository.java
 java
-package com.example.demo.repository;
-
-import com.example.demo.model.Stock;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-import java.util.Optional;
-
-public interface StockRepository extends JpaRepository<Stock, Long> {
-    Optional<Stock> findByTicker(String ticker);
-    List<Stock> findBySector(String sector);
-}
 UserPortfolioRepository.java
 java
 package com.example.demo.repository;
