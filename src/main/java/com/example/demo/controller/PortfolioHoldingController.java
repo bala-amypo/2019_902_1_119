@@ -1,65 +1,36 @@
+
 package com.example.demo.controller;
 
 import com.example.demo.model.PortfolioHolding;
 import com.example.demo.service.PortfolioHoldingService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/holdings")
-@Tag(name = "Holdings", description = "Portfolio holding management endpoints")
+@Tag(name = "Holdings")
 public class PortfolioHoldingController {
     
-    private final PortfolioHoldingService portfolioHoldingService;
-    
-    public PortfolioHoldingController(PortfolioHoldingService portfolioHoldingService) {
-        this.portfolioHoldingService = portfolioHoldingService;
+    private final PortfolioHoldingService holdingService;
+
+    public PortfolioHoldingController(PortfolioHoldingService holdingService) {
+        this.holdingService = holdingService;
     }
-    
-    @PostMapping
-    @Operation(summary = "Create a new holding")
-    public ResponseEntity<PortfolioHolding> createHolding(@RequestBody PortfolioHolding holding) {
-        PortfolioHolding createdHolding = portfolioHoldingService.createHolding(holding);
-        return ResponseEntity.ok(createdHolding);
-    }
-    
-    @PostMapping("/{portfolioId}/{stockId}")
-    @Operation(summary = "Add holding to portfolio")
+
+    @PostMapping("/{portfolioId}/stock/{stockId}")
     public ResponseEntity<PortfolioHolding> addHolding(@PathVariable Long portfolioId, 
-                                                       @PathVariable Long stockId,
-                                                       @RequestBody PortfolioHolding holding) {
-        PortfolioHolding createdHolding = portfolioHoldingService.addHolding(portfolioId, stockId, holding);
-        return ResponseEntity.ok(createdHolding);
+                                                     @PathVariable Long stockId, 
+                                                     @RequestBody PortfolioHolding holding) {
+        PortfolioHolding created = holdingService.addHolding(portfolioId, stockId, holding);
+        return ResponseEntity.ok(created);
     }
-    
-    @PutMapping("/{id}")
-    @Operation(summary = "Update an existing holding")
-    public ResponseEntity<PortfolioHolding> updateHolding(@PathVariable Long id, @RequestBody PortfolioHolding holding) {
-        PortfolioHolding updatedHolding = portfolioHoldingService.updateHolding(id, holding);
-        return ResponseEntity.ok(updatedHolding);
-    }
-    
-    @GetMapping("/{id}")
-    @Operation(summary = "Get holding by ID")
-    public ResponseEntity<PortfolioHolding> getHolding(@PathVariable Long id) {
-        PortfolioHolding holding = portfolioHoldingService.getHoldingById(id);
-        return ResponseEntity.ok(holding);
-    }
-    
+
     @GetMapping("/portfolio/{portfolioId}")
-    @Operation(summary = "Get holdings by portfolio")
     public ResponseEntity<List<PortfolioHolding>> getHoldingsByPortfolio(@PathVariable Long portfolioId) {
-        List<PortfolioHolding> holdings = portfolioHoldingService.getHoldingsByPortfolio(portfolioId);
+        List<PortfolioHolding> holdings = holdingService.getHoldingsByPortfolio(portfolioId);
         return ResponseEntity.ok(holdings);
-    }
-    
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Delete a holding")
-    public ResponseEntity<String> deleteHolding(@PathVariable Long id) {
-        portfolioHoldingService.deleteHolding(id);
-        return ResponseEntity.ok("Holding deleted successfully");
     }
 }
