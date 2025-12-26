@@ -1,36 +1,29 @@
 package com.example.demo.config;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-
 @Configuration
-public class SwaggerConfig {
-
+public class OpenApiConfig {
+    
     @Bean
     public OpenAPI customOpenAPI() {
-
-        SecurityScheme securityScheme = new SecurityScheme()
-                .type(SecurityScheme.Type.HTTP)
-                .scheme("bearer")
-                .bearerFormat("JWT");
-
-        Server server = new Server()
-                .url("https://9034.408procr.amypo.ai/")
-                .description("Production Server");
-
         return new OpenAPI()
-                .addServersItem(server)
-                .components(
-                        new Components().addSecuritySchemes("bearerAuth", securityScheme)
-                )
-                .addSecurityItem(
-                        new SecurityRequirement().addList("bearerAuth")
-                );
+                .info(new Info()
+                        .title("Stock Portfolio Risk Analyzer API")
+                        .version("1.0")
+                        .description("API for managing stock portfolios and risk analysis"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components(new Components()
+                        .addSecuritySchemes("bearerAuth",
+                                new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")));
     }
 }
