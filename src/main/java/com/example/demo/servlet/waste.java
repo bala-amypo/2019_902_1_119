@@ -55,133 +55,18 @@ java
 
 PortfolioHoldingService.java
 java
-package com.example.demo.service;
 
-import com.example.demo.model.PortfolioHolding;
-import java.util.List;
-
-public interface PortfolioHoldingService {
-    PortfolioHolding addHolding(Long portfolioId, Long stockId, PortfolioHolding holding);
-    List<PortfolioHolding> getHoldingsByPortfolio(Long portfolioId);
-}
 RiskThresholdService.java
 java
-package com.example.demo.service;
 
-import com.example.demo.model.RiskThreshold;
-
-public interface RiskThresholdService {
-    RiskThreshold setThreshold(Long portfolioId, RiskThreshold threshold);
-    RiskThreshold getThresholdForPortfolio(Long portfolioId);
-}
 RiskAnalysisService.java
 java
-package com.example.demo.service;
 
-import com.example.demo.model.RiskAnalysisResult;
-import java.util.List;
-
-public interface RiskAnalysisService {
-    RiskAnalysisResult analyzePortfolio(Long portfolioId);
-    List<RiskAnalysisResult> getAnalysesForPortfolio(Long portfolioId);
-}
 Service Implementations (Constructor Injection - Test Suite Required Order)
 UserServiceImpl.java
 java
-package com.example.demo.service;
-
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-@Service
-public class UserServiceImpl implements UserService {
-    
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    public User registerUser(User user) {
-        if (user.getRole() == null) {
-            user.setRole("MONITOR");
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
-    @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
-
-    @Override
-    public User findById(Long id) {
-        return userRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
-}
 StockServiceImpl.java (Exact Constructor Order for Tests)
 java
-package com.example.demo.service;
-
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.Stock;
-import com.example.demo.repository.StockRepository;
-import org.springframework.stereotype.Service;
-import java.util.List;
-
-@Service
-public class StockServiceImpl implements StockService {
-    
-    private final StockRepository stockRepository;
-
-    public StockServiceImpl(StockRepository stockRepository) {
-        this.stockRepository = stockRepository;
-    }
-
-    @Override
-    public Stock createStock(Stock stock) {
-        if (stockRepository.findByTicker(stock.getTicker()).isPresent()) {
-            throw new RuntimeException("Duplicate ticker");
-        }
-        return stockRepository.save(stock);
-    }
-
-    @Override
-    public Stock updateStock(Long id, Stock stock) {
-        Stock existing = stockRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Stock not found"));
-        stock.setId(id);
-        return stockRepository.save(stock);
-    }
-
-    @Override
-    public Stock getStockById(Long id) {
-        return stockRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Stock not found"));
-    }
-
-    @Override
-    public List<Stock> getAllStocks() {
-        return stockRepository.findAll();
-    }
-
-    @Override
-    public void deactivateStock(Long id) {
-        Stock stock = stockRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Stock not found"));
-        stock.setIsActive(false);
-        stockRepository.save(stock);
-    }
-}
 UserPortfolioServiceImpl.java
 java
 package com.example.demo.service;

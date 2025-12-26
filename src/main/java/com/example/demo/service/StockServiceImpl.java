@@ -1,3 +1,4 @@
+
 package com.example.demo.service;
 
 import com.example.demo.exception.ResourceNotFoundException;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Service
 public class StockServiceImpl implements StockService {
+    
     private final StockRepository stockRepository;
 
     public StockServiceImpl(StockRepository stockRepository) {
@@ -17,7 +19,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public Stock createStock(Stock stock) {
         if (stockRepository.findByTicker(stock.getTicker()).isPresent()) {
-            throw new IllegalArgumentException("Duplicate ticker");
+            throw new RuntimeException("Duplicate ticker");
         }
         return stockRepository.save(stock);
     }
@@ -43,7 +45,8 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void deactivateStock(Long id) {
-        Stock stock = getStockById(id);
+        Stock stock = stockRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Stock not found"));
         stock.setIsActive(false);
         stockRepository.save(stock);
     }
