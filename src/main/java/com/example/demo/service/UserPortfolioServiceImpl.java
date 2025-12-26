@@ -10,42 +10,27 @@ import java.util.List;
 
 @Service
 public class UserPortfolioServiceImpl implements UserPortfolioService {
-    private final UserPortfolioRepository userPortfolioRepository;
+    
+    private final UserPortfolioRepository portfolioRepository;
 
-    public UserPortfolioServiceImpl(UserPortfolioRepository userPortfolioRepository) {
-        this.userPortfolioRepository = userPortfolioRepository;
+    public UserPortfolioServiceImpl(UserPortfolioRepository portfolioRepository) {
+        this.portfolioRepository = portfolioRepository;
     }
 
     @Override
     public UserPortfolio createPortfolio(UserPortfolio portfolio) {
         portfolio.setCreatedAt(LocalDateTime.now());
-        portfolio.setIsActive(true);
-        return userPortfolioRepository.save(portfolio);
-    }
-
-    @Override
-    public UserPortfolio updatePortfolio(Long id, UserPortfolio portfolio) {
-        UserPortfolio existing = getPortfolioById(id);
-        portfolio.setId(id);
-        portfolio.setUpdatedAt(LocalDateTime.now());
-        return userPortfolioRepository.save(portfolio);
+        return portfolioRepository.save(portfolio);
     }
 
     @Override
     public UserPortfolio getPortfolioById(Long id) {
-        return userPortfolioRepository.findById(id)
+        return portfolioRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Portfolio not found"));
     }
 
     @Override
     public List<UserPortfolio> getPortfoliosByUser(Long userId) {
-        return userPortfolioRepository.findByUserId(userId);
-    }
-
-    @Override
-    public void deactivatePortfolio(Long id) {
-        UserPortfolio portfolio = getPortfolioById(id);
-        portfolio.setIsActive(false);
-        userPortfolioRepository.save(portfolio);
+        return portfolioRepository.findByUserId(userId);
     }
 }
