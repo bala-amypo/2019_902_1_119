@@ -49,30 +49,10 @@ java
 
 StockService.java
 java
-package com.example.demo.service;
 
-import com.example.demo.model.Stock;
-import java.util.List;
-
-public interface StockService {
-    Stock createStock(Stock stock);
-    Stock updateStock(Long id, Stock stock);
-    Stock getStockById(Long id);
-    List<Stock> getAllStocks();
-    void deactivateStock(Long id);
-}
 UserPortfolioService.java
 java
-package com.example.demo.service;
 
-import com.example.demo.model.UserPortfolio;
-import java.util.List;
-
-public interface UserPortfolioService {
-    UserPortfolio createPortfolio(UserPortfolio portfolio);
-    UserPortfolio getPortfolioById(Long id);
-    List<UserPortfolio> getPortfoliosByUser(Long userId);
-}
 PortfolioHoldingService.java
 java
 package com.example.demo.service;
