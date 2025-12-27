@@ -91,9 +91,6 @@
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
-					<suiteXmlFiles>
-						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
-					</suiteXmlFiles>
 				</configuration>
 				<dependencies>
 					<dependency>
