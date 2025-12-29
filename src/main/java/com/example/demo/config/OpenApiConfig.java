@@ -25,6 +25,6 @@ public class OpenApiConfig {
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
                                         .bearerFormat("JWT")));
-                                        .servers(List.of())
+                                        .servers(List.of(new Server().url("https://9001.vs.ampo.ai")));
     }
 }
